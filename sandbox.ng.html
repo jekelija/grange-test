@@ -1,0 +1,32 @@
+<div class="container">
+    <header>
+        <h1>Search U2's Greatest Hits</h1>
+        <!-- add a form below the h1 -->
+        <div>
+            <!-- must be $parent so that it locks into parent scope? I think -->
+            <input ng-model="$parent.searchStr" type="text"
+             name="text" placeholder="Query for U2 songs" />
+            <button ng-click="toggleShowAll();">{{showAllBtnText}}</button>
+            <span ng-if="errorMsg" style="color:red">{{errorMsg}}</span>
+        </div>
+    </header>    
+    <ul>
+        <li ng-if="query || showingAll" ng-repeat="single in mongoSongs">
+            <div class="row">
+                <img style="float:left;" ng-click="albumSelected(single.single, single.album)" class="albumThumb" src="{{single.thumb}}" />
+                <p class="songText">{{single.single}}</p>
+                <p class="yearText">{{single.year}}</p>
+            </div>
+            
+            <!-- this child div will be hidden until album is clicked -->
+            <div ng-if="singleSelectedMap[single.single]">
+                <h4>All Songs in {{single.album}}</h4>
+                <ul ng-repeat="song in albumSongs[single.album]">
+                    <li>
+                        {{song.single}}
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>
